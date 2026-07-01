@@ -25,6 +25,7 @@
 | Dell Wyse 3040 | Debian 13 Trixie | In service | AllStar node | IP 10.0.0.196, user=matt, SSH via wyse_key |
 | Dell Wyse 3040 | Debian 13 Trixie | In service | OctoPrint (Ender 3) | IP 10.0.0.170, user=matt, SSH via wyse_octoprint |
 | Dell Wyse 3040 | Debian 13 Trixie | In service | Pi-hole | IP 10.0.0.191, user=matt, admin at http://10.0.0.191/admin |
+| Dell OptiPlex 3070 Micro | — | On hand, not set up | Home security — Frigate/Home Assistant | i3-9100T, 8GB RAM, no drive — needs power adapter + SSD |
 
 ---
 
@@ -84,8 +85,8 @@
 
 | Item | Source | ETA | Cost | Project |
 |---|---|---|---|---|
-| Dell OptiPlex 3070 Micro (i3-9100T, 8GB, no drive) | eBay — harddrivesonly | ~week of Jun 30 | $74.99 | Home security — Frigate/Home Assistant |
-| Dell Wyse 3040 x2 | eBay — madman_parts | ~week of Jun 30 | $19.99 ea | Octopussy / wireless shack node / Pi-hole |
+| Dell OptiPlex 3070 Micro (i3-9100T, 8GB, no drive) | eBay — harddrivesonly | Delivered | $74.99 | Home security — Frigate/Home Assistant |
+| Dell Wyse 3040 x2 | eBay — madman_parts | Delivered | $19.99 ea | OctoPrint (done) + Pi-hole (done) |
 | RTL-SDR Blog V4 | — | Delivered | — | OpenWebRX waterfall |
 | SKR Mini E3 V3.0 | BigTreeTech | Arriving Jun 25 | — | Ender 3 board upgrade — BLTouch native |
 | BLTouch V3.1 (Antclabs) | Antclabs | Ordered | ~$40 | Ender 3 auto bed leveler — CR Touch cancelled (incompatible with SKR) |
