@@ -1,0 +1,10 @@
+# Windows
+Thumbs.db
+Desktop.ini
+*.lnk
+
+# Environment / secrets
+.env
+
+# Backups
+*.bak
