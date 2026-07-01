@@ -23,6 +23,8 @@
 |---|---|---|---|---|
 | Main shack PC | Windows 11 | In service | Ham AI / flrig / WSJT-X | COM7 to TS-480SAT |
 | Dell Wyse 3040 | Debian 13 Trixie | In service | AllStar node | IP 10.0.0.196, user=matt, SSH via wyse_key |
+| Dell Wyse 3040 | Debian 13 Trixie | In service | OctoPrint (Ender 3) | IP 10.0.0.170, user=matt, SSH via wyse_octoprint |
+| Dell Wyse 3040 | Debian 13 Trixie | In service | Pi-hole | IP 10.0.0.191, user=matt, admin at http://10.0.0.191/admin |
 
 ---
 

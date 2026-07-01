@@ -72,10 +72,10 @@
 - **Status:** Printer confirmed working. Nozzle plugged (user error) — replacement nozzles on hand.
 - **Blocker:** Swap nozzle, confirm test print
 - **Slicer:** Cura (community standard for Ender 3)
-- **Print server:** OctoPrint on Wyse 3040 (planned, after printer stable)
+- **Print server:** OctoPrint on Wyse 3040 — DONE, IP 10.0.0.170
 - **Ham use cases:** EFHW unun holder, antenna hardware, Arduino enclosures, shack mounts
 - **Notes:** See ender3/build_notes.md for full use case list and Octopussy build plan
-- **Octopussy build:** 2x Wyse 3040 + OctoPrint — one per printer (Matt's Ender 3 + buddy's da Vinci 1.0A after Repetier flash). Blocked on nozzle swap.
+- **Octopussy build:** 2x Wyse 3040 + OctoPrint — Matt's Ender 3 DONE (10.0.0.170). Buddy's da Vinci 1.0A pending Repetier flash.
 
 ---
 
