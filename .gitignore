@@ -8,3 +8,9 @@ Desktop.ini
 
 # Backups
 *.bak
+
+# Private — not for public repo
+people_and_stations.md
+hardware_inventory.md
+dad_antenna.md
+dad_project.md

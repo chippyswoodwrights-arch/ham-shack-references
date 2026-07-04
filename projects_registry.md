@@ -77,6 +77,16 @@
 - **Notes:** See ender3/build_notes.md for full use case list and Octopussy build plan
 - **Octopussy build:** 2x Wyse 3040 + OctoPrint — Matt's Ender 3 DONE (10.0.0.170). Buddy's da Vinci 1.0A pending Repetier flash.
 
+### GoldenEye — Dedicated Laser Engraver
+- **Notes:** ender3/build_notes.md — GoldenEye section
+- **Status:** Backlog — watching Marketplace for used Ender 3 frame (~$40)
+- **What it is:** Used Ender 3 frame converted to dedicated diode laser engraver.
+  Arduino Nano + CNC Shield V4 + ESP8266 WiFi + 10W diode module. LaserGRBL on main PC.
+- **Named in theme with Octopussy** — Bond laser weapon
+- **Arduino Nanos on hand** — 5-pack purchased 2026-07-01
+- **Do not buy anything else until frame is in hand**
+- **Estimated cost:** ~$127-160 total
+
 ---
 
 ## Backlog — Vetted, Ready to Build
@@ -189,6 +199,18 @@
 
 ## Backlog — Concept / Evaluate Later
 
+### Mobile Seamless Repeater Hopper
+- **What:** GPS-aware software that auto-tunes a mobile radio to the nearest 2m repeater as you drive. Like a cell phone switching towers — you don't pick a tower. Eliminates 500-channel pre-programming before road trips.
+- **Stack:** Wyse 3040 (Debian) + USB GPS module + CAT cable → dual-band mobile radio + RepeaterBook local database cache
+- **Hardware candidate:** Kenwood TM-V71A (CAT control via PC port) — needs primary source verification
+- **Power:** 12V→5V converter on ignition-switched line. Systemd service starts on boot. Car on → works → car off → done.
+- **Key design decisions:** Pure RF hopping (not internet). No AllStar required (different problem). RepeaterBook works offline — database cached pre-trip, operates with no cell coverage.
+- **Open questions:** RepeaterBook database export format; TM-V71A CAT on Linux; RSSI vs decode quality as switch trigger
+- **Status:** Concept. Research phase — RepeaterBook data format and radio CAT spec before anything else.
+- **Memory:** [project_mobile_repeater_hopper.md](../../../.claude/projects/C--Users-mattc-OneDrive-Desktop-Ham-Radio/memory/project_mobile_repeater_hopper.md)
+
+
+
 ### Phase 3 Ham AI Agents
 - Privilege-checker agent (isolated, auditable safety logic)
 - Decode-curator agent (filters WSJT-X decodes before main Claude prompt)
@@ -273,6 +295,9 @@ full ESP32 → WiFi → InfluxDB → Grafana pipeline that applies to every subs
 - **Runs:** Debian 13 Trixie, Python, Flask, ASL3, OctoPrint, Pi-hole, Grafana, InfluxDB
 - **Rule:** One Wyse, one job. Keeps failure domains isolated and debugging simple.
 - **At $40 each:** The answer to most "can these share a box" questions is just "buy another one."
+- **WiFi:** Internal M.2 E-key slot is SDIO only — PCIe WiFi cards (Intel AX201 etc.) will NOT work.
+  **Confirmed solution:** GenBasic WiFi 4 USB Nano Wireless Dongle for Linux (ASIN B0BNFKJPXS, ~$10)
+  MT7601U chipset, in-kernel since Linux 4.4, plug and play Debian 13 AND Windows. `sudo nmtui` to connect. That's it.
 
 **Current/planned Wyse inventory:**
 - Node Wyse (10.0.0.196) — AllStar node 52547, ASL3
