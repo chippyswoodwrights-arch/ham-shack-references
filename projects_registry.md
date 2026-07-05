@@ -234,8 +234,11 @@
   digital voice through the home node. Stack: Analog_Bridge + MMDVM_Bridge + YSFGateway.
 - **Why separate box:** Failure isolation. If DVSwitch crashes, AllStar node stays up.
   Clean rebuild path — wipe the DVSwitch Wyse without touching the node.
-- **No extra hardware needed:** Software AMBE via MD380 emulator (`useEmulator = true`).
-  No ThumbDV dongle required.
+- **AMBE codec decision (2026-07-04):** Include a hardware AMBE codec (ThumbDV or DVStick, ~$50-80)
+  regardless of what radio is in use. Software AMBE via MD380 emulator works when a digital radio
+  is in the chain, but hardware codec makes the node radio-agnostic — any radio either operator
+  picks up will work, and the node runs standalone with no radio attached if needed.
+  Update `useEmulator = false` and set codec device path when ThumbDV is added.
 - **Target rooms:** W6EK WIRES-X 62545 (2m room), NorCal Repeater Group #43847 (70cm)
 - **Why needed:** W6EK C4FM repeater (440.575 Auburn) is not reachable from EDH apartment.
   DVSwitch is the only path to C4FM/WIRES-X without hitting that repeater directly.
