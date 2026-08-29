@@ -15,6 +15,8 @@ Built and maintained by KO6NOI — El Dorado Hills, CA.
 | [Debian_Install_Notes.md](Debian_Install_Notes.md) | Debian 13 Trixie install on Wyse 3040 and similar thin clients — boot USB, preseed, SSH, gotchas |
 | [preseed.cfg](preseed.cfg) | Unattended Debian install config — SSH enabled, sudo, passwordless for build user |
 | [openwebrx_build_notes.md](openwebrx_build_notes.md) | OpenWebRX + RTL-SDR V4 on Wyse 3040 — browser-based waterfall server |
+| [allstar_build_notes.md](allstar_build_notes.md) | ASL3 node build on Wyse 3040 — CDM1250/SA818, RIM-Maxtrac, audio calibration, DTMF |
+| [DVSwitch_YSF_Notes.md](DVSwitch_YSF_Notes.md) | DVSwitch (Analog_Bridge/MMDVM_Bridge/YSFGateway) YSF bridge — install gotchas, broken YSFGateway binary on Trixie, placeholder-ID crash |
 | [licenses.md](licenses.md) | US amateur radio license privilege tables — Technician, General, Amateur Extra |
 | [frequencies.md](frequencies.md) | Active frequencies — AllStar nodes, repeaters, HF digital modes |
 | [vendors.md](vendors.md) | Cable and connector sourcing, prices, local store lists |
