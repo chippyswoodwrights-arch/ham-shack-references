@@ -111,11 +111,50 @@ forms.
 
 ---
 
+## 6. DMR side — the BrandMeister parrot needs a PRIVATE call (`dvswitch.sh tune 9990#`)
+
+`dvswitch.sh tune 9990` sends a **group call** to talkgroup 9990. The BrandMeister parrot
+(9990, or the regional `xxx997` — `310997`/`311997` for the USA) only answers a **private
+call**. A group call to 9990 goes nowhere and you get no echo, which looks exactly like a
+broken return path and will send you chasing binaries, levels, and timeslots for days.
+
+**Fix: append `#` to the ID → `dvswitch.sh tune 9990#`.** `dvswitch.sh` passes the string
+straight through (`tune()` just does `remoteControlCommand "txTg=$1"`); Analog_Bridge itself
+reads the trailing `#` as the private-call flag. Verify with `dvswitch.sh show` / the
+MMDVM_Bridge log — the tune must register as `mode=Private`, not `mode=Group`. On the KO6NOI
+build an 11-second key then echoed back an 11.3-second playback, 0% loss, first try.
+
+Note this is only reachable *because* Analog_Bridge supports the `#` flag. An ASL/USRP
+source has no native DMR call-type bit; without the `#` every synthesized frame is a group
+call. Sources: node-ventures.com/digital, billmongan.com `digital_link`,
+dvswitch.groups.io topic 69233738, BM wiki `index.php/Parrot`.
+
+---
+
+## 7. DMR bridge — the two non-default settings that made RX usable
+
+With an AllStar/USRP source feeding the DMR side, stock defaults give kerchunk-per-syllable
+audio that's also too quiet and hissy. Two changes fixed it on the KO6NOI build:
+
+| File | Setting | Stock | Set to | Why |
+|---|---|---|---|---|
+| `DVSwitch.ini` `[DMR]` | `hangTimerInFrames` | `0` | `50` | At 0, MMDVM_Bridge tears down the TLV stream on every gap between DMR superframes, so the AllStar node never latches its receiver and kerchunks once per word. 50 = 3 s hang (the file's own comment says so). |
+| `Analog_Bridge.ini` `[USRP]` | `usrpAudio` / `usrpGain` | `AUDIO_UNITY` / `1.10` (inert) | `AUDIO_USE_GAIN` / `3.5` | Decoded DMR audio arrives well under nominal level; downstream gain-up then pumps the noise floor with the voice. Raising the Digital→Analog gain fixes both. Range is 0.0–5.0; `AUDIO_USE_AGC` + `usrpAGC` is the fallback if hot/quiet talker spread is a problem. |
+
+Everything else (`[1999]` rpt.conf stanza, `tlvGain=0.35`, `Jitter=360`, `AUDIO_UNITY`
+defaults) matched the wiki references exactly — do not go changing those.
+
+---
+
 ## KO6NOI build status (2026-08-29)
 
-- **Crash fixed** — real DMR ID in all three config files, ~18 clean key-ups.
-- **BrandMeister account created**; DMR left disabled (`Enable=0` both stanzas) — YSF only.
-- **Forward audio path proven** by `tcpdump` — voice reaches the reflector end to end.
-- **YSF echo / return audio unresolved** — blocked on the broken YSFGateway binary
-  (section 2). Next step: downgrade the binary, then retest tune, connect prompt, and
-  echo together.
+- **MMDVM_Bridge crash fixed** — real DMR ID in all three config files (section 3).
+- **DMR bridge working both directions** — RX (good audio after the section 7 settings),
+  TX group call (proven via TG 4000 round trip), TX private call (9990# parrot echo,
+  section 6).
+- **YSF echo / return audio still unresolved** — separate problem from the DMR parrot;
+  blocked on the broken YSFGateway binary (section 2). Downgrade to `YSFGateway-20200908`,
+  then retest tune, connect prompt, and echo.
+- **`mmdvm-autoresync.sh` is hardcoded to `dvswitch.sh mode YSF`** — any mmdvm_bridge
+  restart flips the bridge back to YSF; re-run `dvswitch.sh mode DMR` + `tune <tg>` after.
+  Make it mode-aware before DMR is daily-use.
