@@ -139,9 +139,22 @@ audio that's also too quiet and hissy. Two changes fixed it on the KO6NOI build:
 | File | Setting | Stock | Set to | Why |
 |---|---|---|---|---|
 | `DVSwitch.ini` `[DMR]` | `hangTimerInFrames` | `0` | `50` | At 0, MMDVM_Bridge tears down the TLV stream on every gap between DMR superframes, so the AllStar node never latches its receiver and kerchunks once per word. 50 = 3 s hang (the file's own comment says so). |
-| `Analog_Bridge.ini` `[USRP]` | `usrpAudio` / `usrpGain` | `AUDIO_UNITY` / `1.10` (inert) | `AUDIO_USE_GAIN` / `3.5` | Decoded DMR audio arrives well under nominal level; downstream gain-up then pumps the noise floor with the voice. Raising the Digital→Analog gain fixes both. Range is 0.0–5.0; `AUDIO_USE_AGC` + `usrpAGC` is the fallback if hot/quiet talker spread is a problem. |
+| `Analog_Bridge.ini` `[USRP]` | `usrpAudio` / `usrpAGC` (RX: DMR→radio) | `AUDIO_UNITY` | `AUDIO_USE_AGC` / `-25,20,100` | Fixed gain (`AUDIO_USE_GAIN` ~2.5–3.0) works but no one value serves both a hot net-control op and a quiet one — the hot one clips at the `usrpGain` stage. AGC (`usrpAGC` = threshold,slope,decay) levels the spread. **It levels, it does not add loudness** — `usrpGain` doesn't trim post-AGC ([groups.io 74581152](https://dvswitch.groups.io/g/main/topic/74581152)); overall level comes from the node (`txmixaset`) + HT knob. `dvswitch.sh` subcommand is lowercase `usrpagc`. |
+| `Analog_Bridge.ini` `[USRP]` | `tlvAudio` / `tlvGain` (TX: radio→DMR) | `AUDIO_UNITY` / `0.35` (inert) | `AUDIO_USE_GAIN` / `4.0` | At unity the vocoder is starved — your own audio comes back metallic/robotic off the parrot. Walk it up on the `9990#` parrot by ear: clearer each step to 4.0; ~4.5 starts to fuzz on peaks (clip onset). A synthetic edge that survives at any gain is the OP25/md380-emu software-vocoder floor, not a level problem. |
 
-Everything else (`[1999]` rpt.conf stanza, `tlvGain=0.35`, `Jitter=360`, `AUDIO_UNITY`
+Range on both gain knobs is 0.0–5.0 (linear multiplier; 3.0 = 3× unity). `AUDIO_USE_AGC` +
+`usrpAGC` is the RX fallback for hot/quiet talker spread.
+
+**Tuning method:** clear your static TGs first (a busy one floods the slot and swallows
+your keyups on a half-duplex bridge), `dvswitch.sh tune 9990#` for the parrot,
+`dvswitch.sh tlvAudio AUDIO_USE_GAIN <n>` to change the TX gain live, key a slow count,
+listen, repeat. Bake the final value into `Analog_Bridge.ini` — the `dvswitch.sh` command
+is runtime-only and reverts on restart. BrandMeister's Hoseline player also has a
+per-transmission VU meter (pre-AGC: yellow <-20 dBm / green -20 to -3 / red >-3) if you
+want an objective target — though normal ops meter around -24 (yellow), so dead-center
+green isn't required.
+
+Everything else (`[1999]` rpt.conf stanza, `Jitter=360`, all the `AUDIO_UNITY` shipped
 defaults) matched the wiki references exactly — do not go changing those.
 
 ---

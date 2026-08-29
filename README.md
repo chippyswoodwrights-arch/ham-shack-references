@@ -16,7 +16,8 @@ Built and maintained by KO6NOI — El Dorado Hills, CA.
 | [preseed.cfg](preseed.cfg) | Unattended Debian install config — SSH enabled, sudo, passwordless for build user |
 | [openwebrx_build_notes.md](openwebrx_build_notes.md) | OpenWebRX + RTL-SDR V4 on Wyse 3040 — browser-based waterfall server |
 | [allstar_build_notes.md](allstar_build_notes.md) | ASL3 node build on Wyse 3040 — CDM1250/SA818, RIM-Maxtrac, audio calibration, DTMF |
-| [DVSwitch_YSF_Notes.md](DVSwitch_YSF_Notes.md) | DVSwitch (Analog_Bridge/MMDVM_Bridge/YSFGateway) YSF bridge — install gotchas, broken YSFGateway binary on Trixie, placeholder-ID crash |
+| [DVSwitch_DMR_Bridge_Build.md](DVSwitch_DMR_Bridge_Build.md) | AllStar ↔ BrandMeister DMR bridge — step-by-step build procedure, Phases 0–7, through audio testing |
+| [DVSwitch_YSF_Notes.md](DVSwitch_YSF_Notes.md) | DVSwitch (Analog_Bridge/MMDVM_Bridge/YSFGateway) bridge — the traps: broken YSFGateway binary on Trixie, placeholder-ID crash, group-vs-private parrot call, audio-level settings |
 | [licenses.md](licenses.md) | US amateur radio license privilege tables — Technician, General, Amateur Extra |
 | [frequencies.md](frequencies.md) | Active frequencies — AllStar nodes, repeaters, HF digital modes |
 | [vendors.md](vendors.md) | Cable and connector sourcing, prices, local store lists |
