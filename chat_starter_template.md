@@ -38,7 +38,12 @@ Tell me where things stand and your plan before you do anything.
 | Project | Read first |
 |---|---|
 | Ham AI app | `Ham Radio\project_notes.md` (loads automatically) |
-| AllStar / DVSwitch | `AllStar Node\build_notes.md`, memory `project_allstar_build.md`, `project_dvswitch.md` |
+| AllStar / DVSwitch | `AllStar Node\build_notes.md`, `Ham Shack\DVSwitch_DMR_Bridge_Build.md`, `Ham Shack\DVSwitch_YSF_Notes.md`, memory `project_allstar_build.md`, `project_dvswitch.md` |
+
+## Before working in any repo
+
+Phone/remote sessions push to GitHub, not to this laptop. Start by checking `git status -sb`:
+if it says `behind`, pull first. If it says `ahead`, local work hasn't been pushed yet.
 | Octopussy / printer | memory `project_octoprint.md`, `feedback_bltouch_calibration.md` |
 | Satellite rotator | `Satellite Rotator\README.md`, memory `project_satellite_tracker.md` |
 | OptiPlex | memory `project_optiplex_ohc.md` |

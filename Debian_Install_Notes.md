@@ -143,9 +143,9 @@ The ISO filesystem is read-only — cannot edit preseed.cfg in place. Workflow:
 
 | Hostname | IP | Project | SSH Key | Notes |
 |---|---|---|---|---|
-| allstarnode | 10.0.0.196 | AllStar node | ~/.ssh/wyse_key | user=matt |
-| octoprint | 10.0.0.170 | OctoPrint | ~/.ssh/wyse_octoprint | user=matt, OctoPrint at :5000 |
-| pihole | 10.0.0.191 | Pi-hole | ~/.ssh/wyse_octoprint | user=matt, Pi-hole admin at :80/admin |
+| allstarnode | 10.0.0.90 (Tailscale 100.126.228.3) | AllStar node + DVSwitch | ~/.ssh/wyse_default | user=matt. Old IP .196 is dead; wyse_key does NOT work on this box (per memory index, 2026-09-23) |
+| octoprint | 10.0.0.89 | OctoPrint | ~/.ssh/wyse_octoprint | user=matt, OctoPrint at :5000, static IP via nmcli, WiFi MAC 3c:33:00:70:90:23 |
+| pihole | 10.0.0.191 | Pi-hole (ABANDONED 2026-09-05, box powered down) | ~/.ssh/wyse_octoprint | Replaced by AdGuard Home on the OptiPlex (10.0.0.112), per Session 27 notes |
 
 ---
 

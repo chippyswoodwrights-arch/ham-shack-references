@@ -79,12 +79,16 @@
 
 ### GoldenEye — Dedicated Laser Engraver
 - **Notes:** ender3/build_notes.md — GoldenEye section
-- **Status:** Backlog — watching Marketplace for used Ender 3 frame (~$40)
+- **Status:** IN PROGRESS (updated 2026-09-15, was stale "Backlog") — donor Ender 3 frame
+  in hand since 2026-07-05, electronics (2x Mega 2560, CNC Shield V3, A4988 x4, ESP8266)
+  arrived/arriving. Motion system upgrade planned (T8 2mm leadscrews + 0.9° NEMA 17 steppers,
+  all 3 axes) once Z damage is fully assessed. Still needed: NEJE A40630 laser module ($69),
+  wavelength-matched goggles.
 - **What it is:** Used Ender 3 frame converted to dedicated diode laser engraver.
-  Arduino Nano + CNC Shield V4 + ESP8266 WiFi + 10W diode module. LaserGRBL on main PC.
+  ELEGOO Mega 2560 + CNC Shield V3 + A4988 x4 + ESP8266 WiFi + 7W NEJE diode module.
+  LaserGRBL on main PC.
 - **Named in theme with Octopussy** — Bond laser weapon
-- **Arduino Nanos on hand** — 5-pack purchased 2026-07-01
-- **Do not buy anything else until frame is in hand**
+- **Arduino Nanos on hand** — 5-pack purchased 2026-07-01 (parts bin — Mega replaced Nano for this build)
 - **Estimated cost:** ~$127-160 total
 
 ---
@@ -195,18 +199,50 @@
 - **Hardware:** Arduino + paddle + relay (~$15)
 - **Status:** Vetted. K3NG CW keyer is the gold standard.
 
+### DIY Satellite Tracker / Antenna Rotator
+- **Files (2026-09-23):** `Desktop\Satellite Rotator\` (cad/, stl/, gcode/, README), private repo `satellite-rotator`. az_base_plate + az_star_plate ready to print.
+- **Status (updated 2026-09-15, was stale):** Design decisions finalized 2026-07-10, no
+  build work started since. **This entry previously described an abandoned mechanical
+  approach — the design below superseded it in the same design session (2026-07-09/10)
+  and this file was never updated to match.** Current design lives in full in the memory
+  file `project_satellite_tracker.md` — treat that as the source of truth, not this summary.
+- **Design pivot:** dropped the worm-gear DC gearmotor + SatNOGS gear-train approach below
+  in favor of **2x NEMA 17 steppers, direct drive, no gearbox** — base design is the jbyrns
+  AZEL Satellite Rotator (Thingiverse thing:4664558), stripped from ~15 printed parts to ~8
+  by eliminating the gear train and the counterweight assembly (antenna boom mounts at its
+  own center of gravity via U-bolt, so static torque is zero — no counterweight needed).
+- **Hardware on hand:** Arduino Nano + CNC Shield V4 + A4988 drivers (2 spare sets from
+  GoldenEye order)
+- **Still needed:** 2x NEMA 17 steppers (~$20 each, Ender 3 replacement spec), 2x 608ZZ
+  bearings, hardware for the az pivot/thrust race, hall-effect sensor + magnet (home
+  position), tripod battery mount. Full parts list in the memory file.
+- **Controller firmware:** K3NG rotator controller (github.com/k3ng/k3ng_rotator_controller)
+  — GS-232A/B + EasyComm, works with Gpredict. Alternative: ajohns1288/AzElTracker (simpler).
+- **Software chain:** Gpredict → rotctld (Hamlib, port 4533) → USB serial → Arduino
+- **Antenna:** Arrow Antenna II 146/437 clone, DIY build, 3el 2m + 7el 70cm shared boom,
+  ~37.5" boom. Mount point = boom's physical balance point, not the jbyrns handle-thread
+  point (that's what let the counterweight get eliminated).
+- **Blocking dependencies:** (1) ~~Ender 3 printing reliably~~ — **CLEARED** (Session 25,
+  SKR Mini E3 flashed, bed leveled, dual Z confirmed). (2) Antenna element dimensions not
+  yet sourced from a Yagi calculator — **STILL OPEN** (next session: run calculator, note
+  element diameter, then finalize boom/element dimensions for the DIY Arrow clone).
+- **RF noise warning (carried forward):** stepper drivers can generate noise affecting
+  receive. Layout matters.
+- **Research sources:** wiki.satnogs.org, github.com/k3ng/k3ng_rotator_controller,
+  Thingiverse thing:4664558 (all verified 2026-07-09)
+
 ---
 
 ## Backlog — Concept / Evaluate Later
 
-### Mobile Seamless Repeater Hopper
-- **What:** GPS-aware software that auto-tunes a mobile radio to the nearest 2m repeater as you drive. Like a cell phone switching towers — you don't pick a tower. Eliminates 500-channel pre-programming before road trips.
-- **Stack:** Wyse 3040 (Debian) + USB GPS module + CAT cable → dual-band mobile radio + RepeaterBook local database cache
-- **Hardware candidate:** Kenwood TM-V71A (CAT control via PC port) — needs primary source verification
-- **Power:** 12V→5V converter on ignition-switched line. Systemd service starts on boot. Car on → works → car off → done.
-- **Key design decisions:** Pure RF hopping (not internet). No AllStar required (different problem). RepeaterBook works offline — database cached pre-trip, operates with no cell coverage.
-- **Open questions:** RepeaterBook database export format; TM-V71A CAT on Linux; RSSI vs decode quality as switch trigger
-- **Status:** Concept. Research phase — RepeaterBook data format and radio CAT spec before anything else.
+### Mobile Seamless Repeater Hopper + DVSwitch Chat Bridge
+- **What:** Two problems, one box. (1) GPS-aware auto-tuning to nearest 2m repeater as you drive — no 500-channel pre-programming. (2) Persistent YSF/DMR chat room connection via DVSwitch that survives repeater hops. RF presence everywhere, chat room where there's internet (cell or Starlink Roam).
+- **Stack:** Wyse 3040 running hopper software + AllStar node + DVSwitch. VGC VR-N7600 as radio (built-in GPS, APRS, KISS TNC, BLE control). RepeaterBook local database cache. 12V ignition-switched power.
+- **Leading radio:** VGC VR-N7600 ~$300 (GigaParts) — GPS, APRS, KISS TNC all built in. BLE frequency control confirmed possible (app does it), protocol needs reverse engineering via Android BLE snoop log.
+- **Fallback radio:** Kenwood TM-V71A ~$180 used if BLE protocol is locked.
+- **Key design decisions:** RF hopping is offline-capable (works with zero internet). DVSwitch layer degrades gracefully without data. Wyse runs three services (hopper + AllStar + DVSwitch) — acceptable for self-contained mobile unit.
+- **First action when radio in hand:** Android BLE HCI snoop log → Wireshark → confirm frequency control protocol. Then check USB audio enumeration on Linux for AllStar audio path.
+- **Status:** Concept. Research phase. Do not start build until BLE protocol confirmed.
 - **Memory:** [project_mobile_repeater_hopper.md](../../../.claude/projects/C--Users-mattc-OneDrive-Desktop-Ham-Radio/memory/project_mobile_repeater_hopper.md)
 
 
